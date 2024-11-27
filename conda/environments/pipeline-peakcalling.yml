@@ -16,7 +16,6 @@ dependencies:
 - numpy
 - pandas
 - pysam
-- rpy2
 - ruffus
 - seaborn
 # R dependencies
