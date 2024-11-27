@@ -46,7 +46,7 @@ error_handler() {
     echo " ${SCRIPT_NAME} ${SCRIPT_PARAMS}"
     echo
     echo " Please copy and paste this error and report it via Git Hub: "
-    echo " https://github.com/cgat-developers/cgat-flow/issues "
+    echo " https://github.com/jscaber/cgat-flow/issues "
     print_env_vars
     echo " ########################################################## "
 }
@@ -264,15 +264,15 @@ conda_install() {
     log "installing cgat-core, cgat-apps and its dependencies"
     conda create -y --name ${CONDA_INSTALL_ENV} -c conda-forge -c bioconda cgatcore cgat-apps
 
-    log "curl -o env-cgat-flow.yml -O https://raw.githubusercontent.com/cgat-developers/cgat-flow/${BRANCH}/conda/environments/${CONDA_INSTALL_TYPE_PIPELINES}"
-    curl -o env-cgat-flow.yml -O https://raw.githubusercontent.com/cgat-developers/cgat-flow/${BRANCH}/conda/environments/${CONDA_INSTALL_TYPE_PIPELINES}
+    log "curl -o env-cgat-flow.yml -O https://raw.githubusercontent.com/jscaber/cgat-flow/${BRANCH}/conda/environments/${CONDA_INSTALL_TYPE_PIPELINES}"
+    curl -o env-cgat-flow.yml -O https://raw.githubusercontent.com/jscaber/cgat-flow/${BRANCH}/conda/environments/${CONDA_INSTALL_TYPE_PIPELINES}
     
     [[ ${CLUSTER} -eq 0 ]] && sed -i'' -e '/drmaa/d' env-cgat-flow.yml
 
     conda env update --name ${CONDA_INSTALL_ENV} --file env-cgat-flow.yml
 
-    log "curl -O https://raw.githubusercontent.com/cgat-developers/cgat-flow/${BRANCH}/conda/environments/cgat-flow-pipelines."
-    curl -O https://raw.githubusercontent.com/cgat-developers/cgat-flow/${BRANCH}/conda/environments/cgat-flow-pipelines.yml
+    log "curl -O https://raw.githubusercontent.com/jscaber/cgat-flow/${BRANCH}/conda/environments/cgat-flow-pipelines."
+    curl -O https://raw.githubusercontent.com/jscaber/cgat-flow/${BRANCH}/conda/environments/cgat-flow-pipelines.yml
 
     conda env update --name ${CONDA_INSTALL_ENV} --file cgat-flow-pipelines.yml
 
@@ -301,7 +301,7 @@ code_install() {
 
         if [[ $CODE_DOWNLOAD_TYPE -eq 0 ]] ; then
 	    # get the latest version from Git Hub in zip format
-	    curl -LOk https://github.com/cgat-developers/cgat-flow/archive/$BRANCH.zip
+	    curl -LOk https://github.com/jscaber/cgat-flow/archive/$BRANCH.zip
 	    unzip $BRANCH.zip
 	    rm $BRANCH.zip
 	    if [[ ${RELEASE} ]] ; then
@@ -312,10 +312,10 @@ code_install() {
             fi
         elif [[ $CODE_DOWNLOAD_TYPE -eq 1 ]] ; then
 	    # get latest version from Git Hub with git clone
-	    git clone --branch=$BRANCH https://github.com/cgat-developers/cgat-flow.git
+	    git clone --branch=$BRANCH https://github.com/jscaber/cgat-flow.git
         elif [[ $CODE_DOWNLOAD_TYPE -eq 2 ]] ; then
 	    # get latest version from Git Hub with git clone
-	    git clone --branch=$BRANCH git@github.com:cgat-developers/cgat-flow.git
+	    git clone --branch=$BRANCH git@github.com:jscaber/cgat-flow.git
         else
 	    report_error " Unknown download type for CGAT code... "
 	fi
@@ -341,7 +341,7 @@ code_install() {
 	echo " Installation did not finish properly. "
 	echo 
 	echo " Please submit this issue via Git Hub: "
-	echo " https://github.com/cgat-developers/cgat-flow/issues "
+	echo " https://github.com/jscaber/cgat-flow/issues "
 	echo
 	
 	print_env_vars
@@ -378,12 +378,12 @@ install_extra_deps() {
 
     log "installing extra deps"
 
-    curl -O https://raw.githubusercontent.com/cgat-developers/cgat-flow/${BRANCH}/conda/environments/pipelines-extra.yml
+    curl -O https://raw.githubusercontent.com/jscaber/cgat-flow/${BRANCH}/conda/environments/pipelines-extra.yml
 
     conda env update --quiet --name ${CONDA_INSTALL_ENV} --file pipelines-extra.yml
 
     if [[ ${INSTALL_IDE} -eq 1 ]] ; then
-	curl -O https://raw.githubusercontent.com/cgat-developers/cgat-flow/${BRANCH}/conda/environments/pipelines-ide.yml
+	curl -O https://raw.githubusercontent.com/jscaber/cgat-flow/${BRANCH}/conda/environments/pipelines-ide.yml
 	conda env update --quiet --name ${CONDA_INSTALL_ENV} --file pipelines-ide.yml
     fi
 
@@ -394,22 +394,17 @@ install_extra_deps() {
 install_py2_deps() {
 
     log "installing Python 2 deps: macs2"
-    curl -O https://raw.githubusercontent.com/cgat-developers/cgat-flow/${BRANCH}/conda/environments/pipelines-macs2.yml
+    curl -O https://raw.githubusercontent.com/jscaber/cgat-flow/${BRANCH}/conda/environments/pipelines-macs2.yml
 
     conda env update --quiet --file pipelines-macs2.yml
 
     log "installing Python 2 deps: tophat2"
-    curl -O https://raw.githubusercontent.com/cgat-developers/cgat-flow/${BRANCH}/conda/environments/pipelines-tophat2.yml
+    curl -O https://raw.githubusercontent.com/jscaber/cgat-flow/${BRANCH}/conda/environments/pipelines-tophat2.yml
 
     conda env update --quiet --file pipelines-tophat2.yml
 
-    log "installing Python 2 deps: sicer"
-    curl -O https://raw.githubusercontent.com/cgat-developers/cgat-flow/${BRANCH}/conda/environments/pipeline-peakcalling-sicer.yml
-
-    conda env update --quiet --file pipeline-peakcalling-sicer.yml
-
     log "installing Python 2 deps: splicing"
-    curl -O https://raw.githubusercontent.com/cgat-developers/cgat-flow/${BRANCH}/conda/environments/pipelines-splicing.yml
+    curl -O https://raw.githubusercontent.com/jscaber/cgat-flow/${BRANCH}/conda/environments/pipelines-splicing.yml
 
     conda env update --quiet --file pipelines-splicing.yml
 
@@ -532,14 +527,14 @@ test_release() {
     # check pipelines
     curl --output /dev/null \
 	 --silent --head --fail \
-	 https://raw.githubusercontent.com/cgat-developers/cgat-flow/${RELEASE}/README.rst || RELEASE_PIPELINES=$?
+	 https://raw.githubusercontent.com/jscaber/cgat-flow/${RELEASE}/README.rst || RELEASE_PIPELINES=$?
 
     if [[ ${RELEASE_PIPELINES} -ne 0 ]] ; then
 	echo
 	echo " The release number provided for the pipelines does not exist: ${RELEASE}"
 	echo
 	echo " Please have a look at valid releases here: "
-	echo " https://github.com/cgat-developers/cgat-flow/releases"
+	echo " https://github.com/jscaber/cgat-flow/releases"
 	echo
 	echo " An example of valid release is: --release v0.4.0"
 	report_error " Please use a valid release and try again."
