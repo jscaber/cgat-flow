@@ -349,7 +349,7 @@ install_extra_deps() {
 
     log "install extra deps"
 
-    curl -O https://raw.githubusercontent.com/cgat-developers/cgat-flow/${TRAVIS_BRANCH}/conda/environments/pipelines-extra.yml
+    curl -O https://raw.githubusercontent.com/jscaber/cgat-flow/${TRAVIS_BRANCH}/conda/environments/pipelines-extra.yml
 
     conda env update --name ${CONDA_INSTALL_ENV} --file pipelines-extra.yml
 
@@ -367,7 +367,7 @@ install_pipeline_deps() {
     
     log "install pipeline deps"
 
-    curl -O https://raw.githubusercontent.com/cgat-developers/cgat-flow/${TRAVIS_BRANCH}/conda/environments/cgat-flow-pipelines.yml
+    curl -O https://raw.githubusercontent.com/jscaber/cgat-flow/${TRAVIS_BRANCH}/conda/environments/cgat-flow-pipelines.yml
 
     conda env update --name ${CONDA_INSTALL_ENV} --file cgat-flow-pipelines.yml
 
@@ -379,27 +379,27 @@ install_extra_envs() {
 
     log "install extra environments"
 
-    curl -O https://raw.githubusercontent.com/cgat-developers/cgat-flow/${TRAVIS_BRANCH}/conda/environments/pipelines-macs2.yml
+    curl -O https://raw.githubusercontent.com/jscaber/cgat-flow/${TRAVIS_BRANCH}/conda/environments/pipelines-macs2.yml
 
     conda env update --file pipelines-macs2.yml
 
-    curl -O https://raw.githubusercontent.com/cgat-developers/cgat-flow/${TRAVIS_BRANCH}/conda/environments/pipelines-tophat2.yml
+    curl -O https://raw.githubusercontent.com/jscaber/cgat-flow/${TRAVIS_BRANCH}/conda/environments/pipelines-tophat2.yml
 
     conda env update --file pipelines-tophat2.yml
 
-    curl -O https://raw.githubusercontent.com/cgat-developers/cgat-flow/${TRAVIS_BRANCH}/conda/environments/pipeline-peakcalling-sicer.yml
+    curl -O https://raw.githubusercontent.com/jscaber/cgat-flow/${TRAVIS_BRANCH}/conda/environments/pipeline-peakcalling-sicer.yml
 
     conda env update --file pipeline-peakcalling-sicer.yml
 
-    curl -O https://raw.githubusercontent.com/cgat-developers/cgat-flow/${TRAVIS_BRANCH}/conda/environments/pipelines-splicing.yml
+    curl -O https://raw.githubusercontent.com/jscaber/cgat-flow/${TRAVIS_BRANCH}/conda/environments/pipelines-splicing.yml
 
     conda env update --file pipelines-splicing.yml
 
-    curl -O https://raw.githubusercontent.com/cgat-developers/cgat-flow/${TRAVIS_BRANCH}/conda/environments/pipelines-sailfish.yml
+    curl -O https://raw.githubusercontent.com/jscaber/cgat-flow/${TRAVIS_BRANCH}/conda/environments/pipelines-sailfish.yml
     
     conda env update --file pipelines-sailfish.yml
 
-    curl -O https://raw.githubusercontent.com/cgat-developers/cgat-flow/${TRAVIS_BRANCH}/conda/environments/pipelines-salmon.yml
+    curl -O https://raw.githubusercontent.com/jscaber/cgat-flow/${TRAVIS_BRANCH}/conda/environments/pipelines-salmon.yml
     
     conda env update --file pipelines-salmon.yml
     
@@ -418,7 +418,7 @@ install_cgat_flow() {
 
 	if [[ $CODE_DOWNLOAD_TYPE -eq 0 ]] ; then
 	    # get the latest version from Git Hub in zip format
-	    curl -LOk https://github.com/cgat-developers/cgat-flow/archive/$CGATFLOW_BRANCH.zip
+	    curl -LOk https://github.com/jscaber/cgat-flow/archive/$CGATFLOW_BRANCH.zip
 	    unzip $CGATFLOW_BRANCH.zip
 	    rm $CGATFLOW_BRANCH.zip
 	    if [[ ${RELEASE} ]] ; then
@@ -429,10 +429,10 @@ install_cgat_flow() {
 	    fi
 	elif [[ $CODE_DOWNLOAD_TYPE -eq 1 ]] ; then
 	    # get latest version from Git Hub with git clone
-	    git clone --branch=$CGATFLOW_BRANCH https://github.com/cgat-developers/cgat-flow.git $CGATFLOW_REPO
+	    git clone --branch=$CGATFLOW_BRANCH https://github.com/jscaber/cgat-flow.git $CGATFLOW_REPO
 	elif [[ $CODE_DOWNLOAD_TYPE -eq 2 ]] ; then
 	    # get latest version from Git Hub with git clone
-	    git clone --branch=$CGATFLOW_BRANCH git@github.com:cgat-developers/cgat-flow.git $CGATFLOW_REPO
+	    git clone --branch=$CGATFLOW_BRANCH git@github.com:jscaber/cgat-flow.git $CGATFLOW_REPO
 	else
 	    report_error " Unknown download type for CGAT code... "
 	fi
@@ -456,7 +456,7 @@ install_cgat_flow() {
         echo " Installation did not finish properly. "
         echo
         echo " Please submit this issue via Git Hub: "
-        echo " https://github.com/cgat-developers/cgat-flow/issues "
+        echo " https://github.com/jscaber/cgat-flow/issues "
         echo
 
         print_env_vars
@@ -531,7 +531,7 @@ install_cgat_apps() {
 	echo " Installation did not finish properly. "
 	echo
 	echo " Please submit this issue via Git Hub: "
-	echo " https://github.com/cgat-developers/cgat-flow/issues "
+	echo " https://github.com/jscaber/cgat-flow/issues "
 	echo
 	print_env_vars
 
@@ -740,7 +740,7 @@ conda_update() {
 	echo " There was a problem updating the installation. "
 	echo 
 	echo " Please submit this issue via Git Hub: "
-	echo " https://github.com/cgat-developers/cgat-flow/issues "
+	echo " https://github.com/jscaber/cgat-flow/issues "
 	echo 
 
     else 
