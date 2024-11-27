@@ -17,15 +17,15 @@ dependencies:
 - tzlocal
 
 # exome.py
-- beautifulsoup4
+# - beautifulsoup4
 
 # geneinfo.py
-- httplib2
-- intermine
-- mygene
+# - httplib2
+# - intermine
+# - mygene
 
 # gsenrichment.py
-- toposort
+# - toposort
 
 # misc
 - nomkl
