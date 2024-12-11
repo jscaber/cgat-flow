@@ -20,8 +20,6 @@ import re
 from urllib.request import urlopen
 import itertools
 from bs4 import BeautifulSoup, NavigableString
-from rpy2.robjects import pandas2ri
-from rpy2.robjects import r as R
 import copy
 
 # Set PARAMS in calling module
@@ -759,82 +757,6 @@ def extractEBioinfo(eBio_ids, vcfs, outfile):
         out.write("%s\t%s\n" % (gene, "\t".join(map(str, freq_values))))
 
     out.close()
-
-
-def intersectionHeatmap(infiles, outfile):
-    ''' calculate the intersection between the infiles and plot'''
-
-    pandas2ri.activate()
-
-    name2genes = {}
-    df = pd.DataFrame(columns=["id_1", "id_2", "intersection", "perc"])
-
-    ix = 0
-    for inf in infiles:
-
-        name = P.snip(os.path.basename(inf)).split(".")[0]
-        name = name.replace(".", "_")
-
-        with iotools.open_file(inf, "r") as f:
-            genes = set()
-
-            for line in f:
-                if line[0] == "#":
-                    continue
-
-                values = line.strip().split("\t")
-                info = values[7].split(";")
-
-                for x in info:
-                    if x.split("=")[0] == "SNPEFF_GENE_NAME":
-                        gene_name = x.split("=")[1]
-                        break
-
-                # if no gene name found, line is skipped
-                if gene_name:
-                    genes.update((gene_name,))
-
-        name2genes[name] = genes
-        df.loc[ix] = [name, name, len(genes), 1.0]
-        ix += 1
-
-    for pair in itertools.permutations(list(name2genes.keys()), 2):
-        id_1, id_2 = pair
-        intersection = len(name2genes[id_1].intersection(name2genes[id_2]))
-        not_intersecting = len(
-            name2genes[id_1].symmetric_difference(name2genes[id_2]))
-        intersection_perc = float(intersection) / (intersection +
-                                                   not_intersecting)
-
-        df.loc[ix] = [id_1, id_2, intersection, intersection_perc]
-        ix += 1
-
-    variant = os.path.basename(outfile).replace(
-        "overlap_", "").replace("_heatmap.png", "")
-
-    plotIntersectionHeatmap = R('''
-    function(df){
-    library(ggplot2)
-    m_txt = element_text(size=15)
-    m_txt_90 = element_text(size=15, angle=90, vjust=0.5, hjust=1)
-    l_txt = element_text(size=20)
-
-    p = ggplot(df, aes(id_1, id_2, fill=100*perc)) +
-    geom_tile() +
-    geom_text(aes(label=intersection), size=3) +
-    scale_fill_gradient(name="Intersection (%%)", limits=c(0,100),
-                       low="yellow", high="dodgerblue4") +
-    theme(axis.text.x = m_txt_90, axis.text.y = m_txt,
-          legend.text = m_txt, legend.title = m_txt,
-          aspect.ratio=1) +
-    xlab("") + ylab("") +
-    ggtitle("%(variant)s")
-
-    ggsave("%(outfile)s", width=10, height=10)
-    }''' % locals())
-
-    plotIntersectionHeatmap(df)
-
 
 @cluster_runnable
 def filterQuality(infile, qualstr, qualfilter, outfiles):
